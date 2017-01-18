@@ -1,7 +1,6 @@
 from app import app
-from bottle import template
-from bottle import static_file
-from models import Game
+from bottle import template, request, static_file
+from models import game
 
 @app.route('/static/<filepath:path>')
 def server_static(filepath):
@@ -10,9 +9,9 @@ def server_static(filepath):
 @app.get('/')
 @app.get('/index')
 def index():
-    return template('game_board', game = Game()) 
+    return template('game_board', game = game) 
 
 @app.post('/')
 @app.post('/index')
 def index():
-	return request.json;
+    game.fire(request.json['x'], request.json['y'])

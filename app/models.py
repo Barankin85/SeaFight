@@ -19,8 +19,8 @@ class Layout:
 
     def getBoard(self):
         result = [[Position(False, False) for x in range(10)] for y in range(10)] 
-        for i in range(1,10):
-            for j in range(1,10):
+        for i in range(0,9):
+            for j in range(0,9):
                 for ship in self.ships:
                     if any([i,j] == position for position in ship["positions"]):
                         result[i][j] = Position(True, False)
@@ -31,3 +31,8 @@ class Game:
     yourBoard = Layout().getBoard()
     enemyBoard = Layout().getBoard()
 
+    def fire(self, x, y):
+        # print 'fired ' + str(x) + ' ' + str(y)
+        self.enemyBoard[x][y].isFired = True;
+
+game = Game()
