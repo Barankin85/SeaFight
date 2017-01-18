@@ -1,4 +1,21 @@
 $(function() {
+	$('#restartGameBtn').click(function(){
+		if (!confirm('Please confirm game restart')){
+			return;
+		}
+		
+		$.ajax({
+			url: '/reset',
+			type: "POST",
+			success: function(){
+				window.location.reload();
+			},
+			failure: function(errMsg) {
+				alert(errMsg);
+			}
+		})
+	});
+	
     $('.js-fireable').click(function(){
 		var x = $(this).data('x');
 		var y = $(this).data('y');

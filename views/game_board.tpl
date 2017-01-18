@@ -6,8 +6,11 @@
 </head>
 <body>
 	<div class="container">
-		<div class="row">
-			<div class="col-lg-6">
+		<div class="row gamefield">
+		    <div class="col-lg-2">
+				<a href="#" class="btn btn-primary" id="restartGameBtn">Restart game</a>
+			</div>
+			<div class="col-lg-5">
 				<div>You</div>
 				% for i in range(0,10):
 				<div>
@@ -26,7 +29,7 @@
 				% end
 			</div>
 			
-			<div class="col-lg-6">
+			<div class="col-lg-5">
 				<div>Enemy</div>
 				% for i in range(0,10):
 				<div>

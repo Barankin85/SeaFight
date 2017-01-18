@@ -25,3 +25,8 @@ def index():
             return "You are winner!"
         else:
             return "Your enemy won!"
+
+@app.post('/reset')
+def reset():
+    game.start()
+
