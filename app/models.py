@@ -37,7 +37,7 @@ class Ship:
         self.type = type
         self.positions = []
     
-    def isAlive():
+    def isAlive(self):
         return len(self.positions) == 0 or any(position.isFired == False for position in self.positions)
 
 class Player:
@@ -61,21 +61,28 @@ class Player:
                     if any([i,j] == position for position in shipConfiguration["positions"]):
                         occupiedPosition = self.board.setOccipied(i, j)
                         ship.positions.append(occupiedPosition)
-
-    def fire(self, board):
-        positionToFire = self.choosePosition(board)
-        board.setFired(positionToFire[0], positionToFire[1])
     
-    def choosePosition(self, board):
+    def hasAliveShips(self):
+        return any(ship.isAlive() for ship in self.ships)
+
+    def fireBoard(self, x, y):
+        self.board.setFired(x,y)
+
+class AIPlayer(Player):
+    def fireEnemyBoard(self, board):
+        positionToFire = self._choosePosition(board)
+        board.setFired(positionToFire[0], positionToFire[1])
+
+    def _choosePosition(self, board):
         positions = board.getNotFiredPositions()
         return random.choice(positions)
 
 class Game:
     you = Player()
-    enemy = Player()
+    enemy = AIPlayer()
 
     def fire(self, x, y):
-        self.enemy.board.setFired(x,y)
-        self.enemy.fire(self.you.board)
+        self.enemy.fireBoard(x, y)
+        self.enemy.fireEnemyBoard(self.you.board)
 
 game = Game()
