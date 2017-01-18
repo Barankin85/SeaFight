@@ -2,6 +2,7 @@
 SeaFight game web implementation.
 
 Instructions to run:
+
 1. Install python 2.7
 2. Install Bottle package
 3. Clone repo
