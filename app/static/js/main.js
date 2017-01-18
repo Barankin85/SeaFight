@@ -26,13 +26,19 @@ $(function() {
 			type: "POST",
 			data: JSON.stringify({ x: x, y: y }),
 			contentType: "application/json; charset=utf-8",
-			success: function(message){
+			success: function(data){
 				button.removeClass('btn-primary');
-				button.addClass('btn-danger');
 				button.attr('disabled', 'disabled');
+				
+				if (data.shipFired){
+					button.addClass('btn-danger');
+				} else {
+					button.addClass('btn-default');
+				}
+							
 				setTimeout(function(){
-					if (message)
-						alert(message);
+					if (data.message)
+						alert(data.message);
 				
 					window.location.reload();
 				}, 200)

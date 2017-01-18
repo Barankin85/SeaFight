@@ -19,6 +19,9 @@ class Board:
         position = self.positions[x][y]
         position.isOccupied = True
         return position
+
+    def isOccupied(self, x, y):
+        return self.positions[x][y].isOccupied
     
     #sets position with specified coordinates as fired
     def setFired(self, x, y):
@@ -93,6 +96,7 @@ class Game:
         self.start()
 
     #fires board position of computer player and call computer player to fire board of human player
+    #returns True is ship was hit otherwise returns False
     def fire(self, x, y):
         self.enemy.fireBoard(x, y)
         
@@ -103,6 +107,8 @@ class Game:
             self.enemy.fireEnemyBoard(self.you.board)
             if not self.you.hasAliveShips():
                  self.winner = self.enemy
+
+        return self.enemy.board.isOccupied(x, y)
 
     #sets game to initial state
     def start(self):

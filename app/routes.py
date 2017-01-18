@@ -14,17 +14,18 @@ def index():
 @app.post('/')
 @app.post('/index')
 def index():
-    game.fire(request.json['x'], request.json['y'])
+    shipWasFired = game.fire(request.json['x'], request.json['y'])
+    
+    result = { 'shipFired': shipWasFired }
     
     if game.winner:
         isYouWinner = game.winner == game.you
 
         game.start()
 
-        if isYouWinner:
-            return "You are winner!"
-        else:
-            return "Your enemy won!"
+        result['message'] = "You are winner!" if isYouWinner else "Your enemy won!"
+    
+    return result
 
 @app.post('/reset')
 def reset():
