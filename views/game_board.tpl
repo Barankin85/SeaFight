@@ -9,9 +9,9 @@
 		<div class="row">
 			<div class="col-lg-6">
 				<div>You</div>
-				% for i in range(0,9):
+				% for i in range(0,10):
 				<div>
-				  % for j in range(0,9):
+				  % for j in range(0,10):
 				    %if game.you.board.positions[i][j].isOccupied:
 						%if game.you.board.positions[i][j].isFired:
 							<a href="#" class="btn btn-sq btn-danger" disabled="disabled"></a>
@@ -28,9 +28,9 @@
 			
 			<div class="col-lg-6">
 				<div>Enemy</div>
-				% for i in range(0,9):
+				% for i in range(0,10):
 				<div>
-				  % for j in range(0,9):
+				  % for j in range(0,10):
 					%if game.enemy.board.positions[i][j].isOccupied:
 						%if game.enemy.board.positions[i][j].isFired:
 							<a href="#" class="btn btn-sq btn-danger" disabled="disabled"></a>

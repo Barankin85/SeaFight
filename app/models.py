@@ -26,8 +26,8 @@ class Board:
 
     def getNotFiredPositions(self):
         result = []
-        for i in range(0,boardSize-1):
-            for j in range(0,boardSize-1):
+        for i in range(0,boardSize):
+            for j in range(0,boardSize):
                 if not self.positions[i][j].isFired:
                     result.append([i, j])
         return result
@@ -56,8 +56,8 @@ class Player:
         for shipConfiguration in self.shipsConfiguration:
             ship = Ship(shipConfiguration["ship"])
             self.ships.append(ship)
-            for i in range(0,boardSize-1):
-                for j in range(0,boardSize-1):
+            for i in range(0,boardSize):
+                for j in range(0,boardSize):
                     if any([i,j] == position for position in shipConfiguration["positions"]):
                         occupiedPosition = self.board.setOccipied(i, j)
                         ship.positions.append(occupiedPosition)
@@ -78,11 +78,22 @@ class AIPlayer(Player):
         return random.choice(positions)
 
 class Game:
-    you = Player()
-    enemy = AIPlayer()
+    def __init__(self):
+        self.start()
 
     def fire(self, x, y):
         self.enemy.fireBoard(x, y)
-        self.enemy.fireEnemyBoard(self.you.board)
+        
+        if not self.enemy.hasAliveShips():
+            self.winner = self.you
+        else:
+            self.enemy.fireEnemyBoard(self.you.board)
+            if not self.you.hasAliveShips():
+                 self.winner = self.enemy
+
+    def start(self):
+        self.you = Player()
+        self.enemy = AIPlayer()
+        self.winner = None
 
 game = Game()

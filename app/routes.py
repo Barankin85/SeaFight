@@ -15,3 +15,13 @@ def index():
 @app.post('/index')
 def index():
     game.fire(request.json['x'], request.json['y'])
+    
+    if game.winner:
+        winner = game.winner
+
+        game.start()
+
+        if game.winner == game.you:
+            return "You are winner!"
+        else:
+            return "Your enemy won!"

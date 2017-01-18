@@ -8,7 +8,10 @@ $(function() {
 			type: "POST",
 			data: JSON.stringify({ x: x, y: y }),
 			contentType: "application/json; charset=utf-8",
-			success: function(){
+			success: function(message){
+				if (message)
+					alert(message);
+				
 				window.location.reload();
 			},
 			failure: function(errMsg) {
