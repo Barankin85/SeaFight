@@ -17,11 +17,11 @@ def index():
     game.fire(request.json['x'], request.json['y'])
     
     if game.winner:
-        winner = game.winner
+        isYouWinner = game.winner == game.you
 
         game.start()
 
-        if game.winner == game.you:
+        if isYouWinner:
             return "You are winner!"
         else:
             return "Your enemy won!"
