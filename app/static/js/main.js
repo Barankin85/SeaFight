@@ -17,6 +17,7 @@ $(function() {
 	});
 	
     $('.js-fireable').click(function(){
+		var button = $(this);
 		var x = $(this).data('x');
 		var y = $(this).data('y');
 		
@@ -26,10 +27,15 @@ $(function() {
 			data: JSON.stringify({ x: x, y: y }),
 			contentType: "application/json; charset=utf-8",
 			success: function(message){
-				if (message)
-					alert(message);
+				button.removeClass('btn-primary');
+				button.addClass('btn-danger');
+				button.attr('disabled', 'disabled');
+				setTimeout(function(){
+					if (message)
+						alert(message);
 				
-				window.location.reload();
+					window.location.reload();
+				}, 200)
 			},
 			failure: function(errMsg) {
 				alert(errMsg);
