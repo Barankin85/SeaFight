@@ -17,7 +17,9 @@ class Board:
         self.positions = [[Position(False, False) for x in range(boardSize)] for y in range(boardSize)]
     
     def setOccipied(self, x, y):
-        self.positions[x][y].isOccupied = True
+        position = self.positions[x][y]
+        position.isOccupied = True
+        return position
     
     def setFired(self, x, y):
         self.positions[x][y].isFired = True
@@ -30,8 +32,16 @@ class Board:
                     result.append([i, j])
         return result
 
-class Layout:
-    ships = [
+class Ship:
+    def __init__(self, type):
+        self.type = type
+        self.positions = []
+    
+    def isAlive():
+        return len(self.positions) == 0 or any(position.isFired == False for position in self.positions)
+
+class Player:
+    shipsConfiguration = [
         { "ship": "carrier", "positions": [[2,9], [3,9], [4,9], [5,9], [6,9]] },
         { "ship": "battleship", "positions": [[5,2], [5,3], [5,4], [5,5]] },
         { "ship": "cruiser", "positions": [[8,1], [8,2], [8,3]] },
@@ -39,17 +49,19 @@ class Layout:
         { "ship": "destroyer", "positions": [[0,0], [1,0]] }
     ]
 
-    def getBoard(self):
-        board = Board()
-        for i in range(0,boardSize-1):
-            for j in range(0,boardSize-1):
-                for ship in self.ships:
-                    if any([i,j] == position for position in ship["positions"]):
-                        board.setOccipied(i, j)
+    def __init__(self):
+        self.ships = []
+        self.board = Board()
+        
+        for shipConfiguration in self.shipsConfiguration:
+            ship = Ship(shipConfiguration["ship"])
+            self.ships.append(ship)
+            for i in range(0,boardSize-1):
+                for j in range(0,boardSize-1):
+                    if any([i,j] == position for position in shipConfiguration["positions"]):
+                        occupiedPosition = self.board.setOccipied(i, j)
+                        ship.positions.append(occupiedPosition)
 
-        return board
-
-class Player:
     def fire(self, board):
         positionToFire = self.choosePosition(board)
         board.setFired(positionToFire[0], positionToFire[1])
@@ -59,12 +71,11 @@ class Player:
         return random.choice(positions)
 
 class Game:
-    yourBoard = Layout().getBoard()
-    enemyBoard = Layout().getBoard()
+    you = Player()
     enemy = Player()
 
     def fire(self, x, y):
-        self.enemyBoard.setFired(x,y)
-        self.enemy.fire(self.yourBoard)
+        self.enemy.board.setFired(x,y)
+        self.enemy.fire(self.you.board)
 
 game = Game()

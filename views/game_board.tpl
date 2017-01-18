@@ -12,8 +12,8 @@
 				% for i in range(0,9):
 				<div>
 				  % for j in range(0,9):
-				    %if game.yourBoard.positions[i][j].isOccupied:
-						%if game.yourBoard.positions[i][j].isFired:
+				    %if game.you.board.positions[i][j].isOccupied:
+						%if game.you.board.positions[i][j].isFired:
 							<a href="#" class="btn btn-sq btn-danger" disabled="disabled"></a>
 						%else:
 							<a href="#" class="btn btn-sq btn-info" disabled="disabled"></a>
@@ -31,14 +31,14 @@
 				% for i in range(0,9):
 				<div>
 				  % for j in range(0,9):
-					%if game.enemyBoard.positions[i][j].isOccupied:
-						%if game.enemyBoard.positions[i][j].isFired:
+					%if game.enemy.board.positions[i][j].isOccupied:
+						%if game.enemy.board.positions[i][j].isFired:
 							<a href="#" class="btn btn-sq btn-danger" disabled="disabled"></a>
 						%else:
 							<a href="#" class="js-fireable btn btn-sq btn-primary" data-x="{{i}}" data-y="{{j}}"></a>
 						%end
 					%else:
-						%if game.enemyBoard.positions[i][j].isFired:
+						%if game.enemy.board.positions[i][j].isFired:
 							<a href="#" class="btn btn-sq btn-default" disabled="disabled"></a>
 						%else:
 							<a href="#" class="js-fireable btn btn-sq btn-primary" data-x="{{i}}" data-y="{{j}}"></a>
