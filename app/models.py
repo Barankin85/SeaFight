@@ -1,12 +1,34 @@
+import random
+
 class PositionState:
     NotFired, Missed, Hit = range(3)
 
 States = PositionState()
 
 class Position:
-    def __init__(self, occupied, isFired):
-        self.occupied = occupied
+    def __init__(self, isOccupied, isFired):
+        self.isOccupied = isOccupied
         self.isFired = isFired
+
+boardSize = 10
+
+class Board:
+    def __init__(self):
+        self.positions = [[Position(False, False) for x in range(boardSize)] for y in range(boardSize)]
+    
+    def setOccipied(self, x, y):
+        self.positions[x][y].isOccupied = True
+    
+    def setFired(self, x, y):
+        self.positions[x][y].isFired = True
+
+    def getNotFiredPositions(self):
+        result = []
+        for i in range(0,boardSize-1):
+            for j in range(0,boardSize-1):
+                if not self.positions[i][j].isFired:
+                    result.append([i, j])
+        return result
 
 class Layout:
     ships = [
@@ -18,21 +40,31 @@ class Layout:
     ]
 
     def getBoard(self):
-        result = [[Position(False, False) for x in range(10)] for y in range(10)] 
-        for i in range(0,9):
-            for j in range(0,9):
+        board = Board()
+        for i in range(0,boardSize-1):
+            for j in range(0,boardSize-1):
                 for ship in self.ships:
                     if any([i,j] == position for position in ship["positions"]):
-                        result[i][j] = Position(True, False)
+                        board.setOccipied(i, j)
 
-        return result
+        return board
+
+class Player:
+    def fire(self, board):
+        positionToFire = self.choosePosition(board)
+        board.setFired(positionToFire[0], positionToFire[1])
+    
+    def choosePosition(self, board):
+        positions = board.getNotFiredPositions()
+        return random.choice(positions)
 
 class Game:
     yourBoard = Layout().getBoard()
     enemyBoard = Layout().getBoard()
+    enemy = Player()
 
     def fire(self, x, y):
-        # print 'fired ' + str(x) + ' ' + str(y)
-        self.enemyBoard[x][y].isFired = True;
+        self.enemyBoard.setFired(x,y)
+        self.enemy.fire(self.yourBoard)
 
 game = Game()
